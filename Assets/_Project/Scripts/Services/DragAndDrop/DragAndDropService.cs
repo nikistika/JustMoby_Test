@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Zenject;
 
 namespace _Project.Scripts.Services.DragAndDrop
@@ -85,11 +86,14 @@ namespace _Project.Scripts.Services.DragAndDrop
             _source = RaycastFor<IDragTarget>(startPos);
             if (_source == null) return;
 
+            var scrollRect = RaycastFor<ScrollRect>(startPos);
+            var isInScrollRect = scrollRect != null;
 
-            StartDragAsync(startPos).Forget();
+            if (!isInScrollRect)
+            {
+                StartDragAsync(startPos).Forget();
+            }
 
-
-            _isHolding = true;
             _startPos = startPos;
         }
 
